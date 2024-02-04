@@ -1,10 +1,10 @@
 import { Client, Databases, ID, Account, Query } from 'appwrite';
-const dbID = '65bcbaf1bc950cbdf7f6';
-const collecID = '65bcbaf874b8045b7e24';
+const dbID = '';
+const collecID = '';
 const client = new Client();
 client
     .setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject('65bcb8973e5e140c8a6e');
+    .setProject('');
 const db = new Databases(client);
 export const account = new Account(client);
 
