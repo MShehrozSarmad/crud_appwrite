@@ -1,19 +1,35 @@
-// appwrite config
 import './style.css';
-import { Client, Databases, ID } from 'appwrite';
-const dbID = '';
-const collecID = '';
-const client = new Client();
-client
-  .setEndpoint('https://cloud.appwrite.io/v1')
-  .setProject('65bcb8973e5e140c8a6e');
-const db = new Databases(client);
-// ------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------------
+import { crtDataHandler, delhandler, getDataHandler, updateHandler, logout, getUserData } from './appwriteconfig';
 
 const form = document.getElementById('form');
 const list = document.getElementById('list');
+const usrCntnr = document.getElementById('userData');
+const name = document.getElementById('name');
 let edtbl = false;
+
+// ------------------------------------------------------------------------------------------
+
+async function checkUser() {
+  try {
+    const user = await getUserData();
+    if (!user.$id) {
+      window.location.href = './login.html';
+    }
+
+    const btn = document.createElement('button');
+    btn.textContent = 'Logout';
+    btn.addEventListener('click', logout)
+    usrCntnr.appendChild(btn);
+
+    name.textContent = `Welcome ${user.name} !`
+
+
+  } catch (error) {
+    console.error(error);
+    window.location.href = './login.html';
+  }
+}
+checkUser();
 
 
 const renderTasks = async (data) => {
@@ -37,18 +53,15 @@ const renderTasks = async (data) => {
   list.insertAdjacentElement('afterbegin', li);
 
   // del handler
-  buttonDel.addEventListener('click', () => {
+  buttonDel.addEventListener('click', async () => {
     document.getElementById(data.$id).remove();
-    db.deleteDocument(dbID, collecID, data.$id)
-      .catch((error) => {
-        console.error('Failed to delete document:', error);
-        list.insertAdjacentElement('afterbegin', li);
-      });
+    await delhandler(data.$id)
+    //   list.insertAdjacentElement('afterbegin', li);
   });
 
 
   // update handler
-  buttonEdt.addEventListener('click', (e) => {
+  buttonEdt.addEventListener('click', async (e) => {
     let targett = document.getElementById(data.$id);
     targett = targett.childNodes[0];
     edtbl = !edtbl;
@@ -59,14 +72,14 @@ const renderTasks = async (data) => {
     } else {
       e.target.textContent = '✏️'
       targett.contentEditable = false;
-      db.updateDocument(dbID, collecID, data.$id, { 'task': targett.textContent })
+      await updateHandler( data.$id ,{ 'task': targett.textContent })
     }
   })
 
   li.childNodes[0].addEventListener('dblclick', async (e) => {
     data.status = !data.status;
     e.target.className = `taskStts-${data.status}`
-    db.updateDocument(dbID, collecID, data.$id, { 'status': data.status })
+    await updateHandler(data.$id, { 'status': data.status })
   })
 
 }
@@ -74,7 +87,7 @@ const renderTasks = async (data) => {
 
 // get tasks
 async function getTasks() {
-  const data = await db.listDocuments(dbID, collecID);
+  const data = await getDataHandler();
   console.log(data.documents);
   for (const task of data.documents) {
     renderTasks(task)
@@ -85,7 +98,7 @@ getTasks();
 
 // add tasks
 async function addTask(tskVal) {
-  const response = await db.createDocument(dbID, collecID, ID.unique(), { 'task': tskVal, 'status': false });
+  const response = await crtDataHandler({ 'task': tskVal, 'status': false })
   console.log(response);
   renderTasks(response);
 }
@@ -97,3 +110,4 @@ form.addEventListener('submit', (e) => {
   addTask(data);
   form.reset();
 })
+

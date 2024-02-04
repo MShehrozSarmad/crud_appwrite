@@ -1,23 +1,27 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app">
-      <!-- create -->
-      <form id="form">
-        <input type="text" id="data" required>
-        <input type="submit" value="Add">
-      </form>
-      <!-- read -->
-      <ul id="list">
 
-      </ul>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRUD Appwrite</title>
+</head>
+
+<body>
+  <div id="app">
+    <div id="userData">
+      <p id="name"></p>
     </div>
-    <script type="module" src="/main.js"></script>
-  </body>
+    <!-- create -->
+    <form id="form">
+      <input type="text" id="data" required />
+      <input type="submit" value="Add" />
+    </form>
+    <!-- read -->
+    <ul id="list"></ul>
+  </div>
+  <script type="module" src="/main.js"></script>
+</body>
+
 </html>
