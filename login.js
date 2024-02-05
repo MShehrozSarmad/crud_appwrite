@@ -11,7 +11,7 @@ const login = async (e) => {
         console.log(res);
         window.location.href = './index.html';
     } catch (e) {
-        alert('error login account')
+        alert('error login account', e)
     }
 }
 

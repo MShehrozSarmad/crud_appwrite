@@ -1,10 +1,10 @@
 import { Client, Databases, ID, Account, Query } from 'appwrite';
-const dbID = '';
-const collecID = '';
+const dbID = '65bcbaf1bc950cbdf7f6';
+const collecID = '65bcbaf874b8045b7e24';
 const client = new Client();
 client
     .setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject('');
+    .setProject('65bcb8973e5e140c8a6e');
 const db = new Databases(client);
 export const account = new Account(client);
 
@@ -29,8 +29,7 @@ export const updateHandler = async (recID, rec) => {
 export const delhandler = async (recID) => {
     await db.deleteDocument(dbID, collecID, recID)
         .catch((error) => {
-            alert('failed to delete')
-            console.error('Failed to delete document:', error);
+            alert('failed to delete', e)
         });
 }
 
@@ -43,6 +42,6 @@ export const logout = async () => {
         window.location.href = './login.html';
         alert('successfully logged out')
     } catch (e) {
-        alert('error logging out')
+        alert('error logging out', e)
     }
 }

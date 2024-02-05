@@ -14,7 +14,7 @@ const register = async (e) => {
         await account.createEmailSession(email, pswrd);
         window.location.href = './index.html';
     } catch (e) {
-        alert('error creating account')
+        alert('error creating account', e)
     }
 }
 
